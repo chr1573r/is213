@@ -1,6 +1,6 @@
-#include <stdio.h>
-#include <unistd.h>
-#include <poll.h>
+#include <stdio.h> // we are doing input/output operations
+#include <unistd.h> // POSIX, we are running this on a posix compliant system
+#include <poll.h> //we want this for multiplexing blocks for stdin and stout
 #define TIMEOUT 5 /* poll timeout, in seconds */
 int main (void)
 {
@@ -16,7 +16,7 @@ int main (void)
 	 fds[1].events = POLLOUT;
 
 	 /* All set, block! */
-	 ret = poll (fds, 2, TIMEOUT * 1000);
+	 ret = poll (fds, 2, TIMEOUT * 1000); // activate poll, timeout set if nothing happens with our fds
 	 if (ret == -1) {
 		 perror ("poll");
 		 return 1;
@@ -26,9 +26,9 @@ int main (void)
 		 return 0;
 	 }
 	 
-	 if (fds[0].revents & POLLIN)
+	 if (fds[0].revents & POLLIN) // stdin is not blocked and available
 	 	printf ("stdin is readable\n");
-	 if (fds[1].revents & POLLOUT)
+	 if (fds[1].revents & POLLOUT) // stdout is not blocked and available
 	 	printf ("stdout is writable\n");
 
 	 return 0;
