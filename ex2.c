@@ -1,17 +1,17 @@
-#include <stdio.h>
-#include <sys/time.h>
-#include <sys/types.h>
-#include <unistd.h>
+#include <stdio.h>     // for standard I/O, we need to read and write
+#include <sys/time.h>  // our timer needs a way to aquire time measurements from the system 
+#include <sys/types.h> // special types for storing time values etc
+#include <unistd.h>    // posix
 #define TIMEOUT 5 /* select timeout in seconds */
 #define BUF_LEN 1024 /* read buffer in bytes */
 int main (void)
 	{
-	struct timeval tv;
-	fd_set readfds;
+	struct timeval tv; // struct for keeping time later in the timer
+	fd_set readfds;    //  filedescriptor to be used to check if data is ready to be read 
 	int ret;
 
 	/* Wait on stdin for input. */
-	FD_ZERO(&readfds);
+	FD_ZERO(&readfds); 
 	FD_SET(STDIN_FILENO, &readfds);
 
 	/* Wait up to five seconds. */
